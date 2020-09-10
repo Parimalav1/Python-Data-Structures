@@ -55,6 +55,24 @@ class BSTNode:
 
         return max_value
 
+    def get_min(self):
+        min_value = self.value
+        current = self.left
+        while current:
+            min_value = current.value
+            current = current.left
+
+        return min_value
+
+    def get_min2(self):
+        if not self:
+            return None
+
+        while self.left:
+            self = self.left
+
+        return self.value
+
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
         fn(self.value)
@@ -79,7 +97,7 @@ class BSTNode:
             print(self.value)
         if self.left:
             self.left.pre_order_print()
-        else:
+        if self.right:
             self.right.pre_order_print()
 
     def post_order_print(self):
@@ -109,19 +127,44 @@ class BSTNode:
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
+
     def dft_print(self):
-        pass
+        dft_stack = []
+        dft_stack.append(self)  # append the root
+        visited = {}
+        while len(dft_stack) > 0:
+            node = dft_stack[-1]
+            if str(node.value) not in visited:
+                print(node.value)
+                visited[str(node.value)] = True
+            if node.left and str(node.left.value) not in visited:
+                dft_stack.append(node.left)
+            elif node.right and str(node.right.value) not in visited:
+                dft_stack.append(node.right)
+            else:
+                dft_stack.pop()
+
+
 
     # Stretch Goals -------------------------
     # Note: Research may be required
-
     # Print Pre-order recursive DFT
     def pre_order_dft(self):
-        pass
+        if self.value:
+            print(self.value)
+        if self.left:
+            self.left.pre_order_print()
+        if self.right:
+            self.right.pre_order_print()
 
     # Print Post-order recursive DFT
     def post_order_dft(self):
-        pass
+        if self.left:
+            self.left.post_order_print()
+        if self.right:
+            self.right.post_order_print()
+        print(self.value)
+
 
     def in_order_dft(self):
         if self.left:
@@ -133,25 +176,26 @@ class BSTNode:
 """
 This code is necessary for testing the `print` methods
 """
-# bst = BSTNode(1)
+bst = BSTNode(1)
 
-# bst.insert(8)
-# bst.insert(5)
-# bst.insert(7)
-# bst.insert(6)
-# bst.insert(3)
-# bst.insert(4)
-# bst.insert(2)
+bst.insert(8)
+bst.insert(5)
+bst.insert(7)
+bst.insert(6)
+bst.insert(3)
+bst.insert(4)
+bst.insert(2)
 
 # bst.bft_print()
-# bst.dft_print()
-
-# print("elegant methods")
-# print("pre order")
-# bst.pre_order_dft()
-# print("in order")
-# bst.in_order_dft()
-# print("post order")
-# bst.post_order_dft()  
-# print("bft")
-# bst.bft_print()
+bst.dft_print()
+print('----------')
+bst.pre_order_print()
+print("elegant methods")
+print("pre order")
+bst.pre_order_dft()
+print("in order")
+bst.in_order_dft()
+print("post order")
+bst.post_order_dft()  
+print("bft")
+bst.bft_print()
